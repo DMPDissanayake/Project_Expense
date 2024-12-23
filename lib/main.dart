@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_expense/Screen/on_borad_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,19 +11,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "E-Commerce App",
       theme: ThemeData(fontFamily: "Inter"),
-      home: Scaffold(
-        body: Center(
-          child: Text(
-            "Sri Lanaka",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-        ),
-      ),
+      home: OnBoradScreen(),
     );
   }
 }
