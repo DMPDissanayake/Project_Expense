@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_expense/Constants/colors.dart';
+import 'package:project_expense/Services/user_services.dart';
 import 'package:project_expense/Widgets/main_button.dart';
 
 class UserDetailePage extends StatefulWidget {
@@ -177,13 +178,21 @@ class _UserDetailePageState extends State<UserDetailePage> {
                   ),
                   //Button
                   GestureDetector(
-                    onTap: () {
+                    onTap: () async {
                       if (_formKey.currentState!.validate()) {
                         //save data
-                        final name = _nameController.text;
+                        final userName = _nameController.text;
                         final email = _emailController.text;
                         final password = _passwordController.text;
                         final confirmPassword = _confirmPasswordController.text;
+
+                        //set data
+                        await UserServices.storeUserDetails(
+                            userName: userName,
+                            email: email,
+                            password: password,
+                            confirmPassword: confirmPassword,
+                            context: context);
                       }
                     },
                     child: MainButton(
