@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_expense/Constants/colors.dart';
+import 'package:project_expense/Screen/mainscreen.dart';
 import 'package:project_expense/Services/user_services.dart';
 import 'package:project_expense/Widgets/main_button.dart';
 
@@ -193,6 +194,14 @@ class _UserDetailePageState extends State<UserDetailePage> {
                             password: password,
                             confirmPassword: confirmPassword,
                             context: context);
+
+                        //Navigate to the home screen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Mainscreen(),
+                          ),
+                        );
                       }
                     },
                     child: MainButton(

@@ -37,4 +37,11 @@ class UserServices {
       err.toString();
     }
   }
+
+  //method to check if the user is logged in
+  static Future<bool> checkUserName() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String? userName = pref.getString("userName");
+    return userName != null;
+  }
 }

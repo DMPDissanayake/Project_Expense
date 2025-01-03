@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_expense/Screen/on_borad_screen.dart';
+import 'package:project_expense/Services/user_services.dart';
+import 'package:project_expense/Widgets/wrapper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -13,11 +15,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "E-Commerce App",
-      theme: ThemeData(fontFamily: "Inter"),
-      home: OnBoradScreen(),
-    );
+    return FutureBuilder(
+        future: UserServices.checkUserName(),
+        builder: (context, snapshot) {
+          //if the snphot is still waitting
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else {
+            //her the hasUserName will be set to true of the data is thir in the snapshot and otherwise false
+            bool hasUserName = snapshot.data ?? false;
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(fontFamily: "inter"),
+              home: Wrapper(showMainScreen: hasUserName),
+            );
+          }
+        });
   }
 }
