@@ -20,9 +20,9 @@ class _MainscreenState extends State<Mainscreen> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
+      AddNew(),
       Home(),
       Trasaction(),
-      AddNew(),
       Bugets(),
       Profile(),
     ];
