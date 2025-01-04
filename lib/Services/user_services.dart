@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserServices {
-  // Method to get user details
+  // Method to set user details
   static Future<void> storeUserDetails({
     required String userName,
     required String email,
@@ -43,5 +43,13 @@ class UserServices {
     SharedPreferences pref = await SharedPreferences.getInstance();
     String? userName = pref.getString("userName");
     return userName != null;
+  }
+
+  //user detailes get
+  static Future<Map<String, String>> getUserDetailes() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String? userName = pref.getString("userName");
+    String? email = pref.getString("email");
+    return {"userName": userName!, "email": email!};
   }
 }
