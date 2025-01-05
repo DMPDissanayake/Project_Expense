@@ -4,10 +4,15 @@ import 'package:project_expense/Constants/colors.dart';
 import 'package:project_expense/Constants/constants.dart';
 import 'package:project_expense/Models/expense_mode.dart';
 import 'package:project_expense/Models/income_mode.dart';
+import 'package:project_expense/Services/expences_services.dart';
 import 'package:project_expense/Widgets/main_button.dart';
 
 class AddNew extends StatefulWidget {
-  const AddNew({super.key});
+  final Function(Expense) addExpense;
+  const AddNew({
+    super.key,
+    required this.addExpense,
+  });
 
   @override
   State<AddNew> createState() => _AddNewState();
@@ -399,7 +404,27 @@ class _AddNewState extends State<AddNew> {
                             thickness: 5,
                           ),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () async {
+                              //save the espenses or income data into shard repf
+                              List<Expense> loadedExpenses =
+                                  await ExpensesServices().loadExpenses();
+
+                              //Create the expenses to store
+                              Expense expense = Expense(
+                                id: loadedExpenses.length + 1,
+                                title: _titleController.text,
+                                amount: _amountController.text.isEmpty
+                                    ? 0
+                                    : double.parse(_amountController.text),
+                                category: _expenseCategory,
+                                date: _setDate,
+                                time: _setTime,
+                                description: _descriptionController.text,
+                              );
+
+                              //add expenses
+                              widget.addExpense(expense);
+                            },
                             child: MainButton(
                               bColor: _viewPage == 0 ? kRed : kGreen,
                               text: 'Add',

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:project_expense/Constants/colors.dart';
+import 'package:project_expense/Models/expense_mode.dart';
 import 'package:project_expense/Screen/add.dart';
 import 'package:project_expense/Screen/buget.dart';
 import 'package:project_expense/Screen/home.dart';
 import 'package:project_expense/Screen/profile.dart';
 import 'package:project_expense/Screen/trasaction.dart';
+import 'package:project_expense/Services/expences_services.dart';
 
 class Mainscreen extends StatefulWidget {
   const Mainscreen({super.key});
@@ -17,12 +19,43 @@ class _MainscreenState extends State<Mainscreen> {
   //Curent index
   int _currentPageIndex = 0;
 
+  List<Expense> expenseList = [];
+
+  //Funtion to fetch espense
+  void fentchAllExpense() async {
+    List<Expense> loadedExpense = await ExpensesServices().loadExpenses();
+    setState(() {
+      expenseList = loadedExpense;
+      print(expenseList.length);
+    });
+  }
+
+  //Add new expense
+  void addNewExpense(Expense newExpense) {
+    ExpensesServices().saveExpenses(newExpense, context);
+
+    //update the list expenses
+    setState(() {
+      expenseList.add(newExpense);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      fentchAllExpense();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
-      AddNew(),
       Home(),
       Trasaction(),
+      AddNew(
+        addExpense: addNewExpense,
+      ),
       Bugets(),
       Profile(),
     ];
