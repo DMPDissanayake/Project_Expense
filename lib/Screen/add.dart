@@ -5,13 +5,16 @@ import 'package:project_expense/Constants/constants.dart';
 import 'package:project_expense/Models/expense_mode.dart';
 import 'package:project_expense/Models/income_mode.dart';
 import 'package:project_expense/Services/expences_services.dart';
+import 'package:project_expense/Services/income_servises.dart';
 import 'package:project_expense/Widgets/main_button.dart';
 
 class AddNew extends StatefulWidget {
   final Function(Expense) addExpense;
+  final Function(Income) addIncome;
   const AddNew({
     super.key,
     required this.addExpense,
+    required this.addIncome,
   });
 
   @override
@@ -406,24 +409,47 @@ class _AddNewState extends State<AddNew> {
                           GestureDetector(
                             onTap: () async {
                               //save the espenses or income data into shard repf
-                              List<Expense> loadedExpenses =
-                                  await ExpensesServices().loadExpenses();
+                              if (_viewPage == 0) {
+                                //Expense
+                                List<Expense> loadedExpenses =
+                                    await ExpensesServices().loadExpenses();
 
-                              //Create the expenses to store
-                              Expense expense = Expense(
-                                id: loadedExpenses.length + 1,
-                                title: _titleController.text,
-                                amount: _amountController.text.isEmpty
-                                    ? 0
-                                    : double.parse(_amountController.text),
-                                category: _expenseCategory,
-                                date: _setDate,
-                                time: _setTime,
-                                description: _descriptionController.text,
-                              );
+                                //Create the expenses to store
+                                Expense expense = Expense(
+                                  id: loadedExpenses.length + 1,
+                                  title: _titleController.text,
+                                  amount: _amountController.text.isEmpty
+                                      ? 0
+                                      : double.parse(_amountController.text),
+                                  category: _expenseCategory,
+                                  date: _setDate,
+                                  time: _setTime,
+                                  description: _descriptionController.text,
+                                );
 
-                              //add expenses
-                              widget.addExpense(expense);
+                                //add expenses
+                                widget.addExpense(expense);
+                              } else {
+                                //Income
+                                List<Income> loadedIcome =
+                                    await IncomeServises().loadedIncome();
+
+                                //Create the income to store
+                                Income income = Income(
+                                  id: loadedIcome.length + 1,
+                                  title: _titleController.text,
+                                  amount: _amountController.text.isEmpty
+                                      ? 0
+                                      : double.parse(_amountController.text),
+                                  category: _incomeCategory,
+                                  date: _setDate,
+                                  time: _setTime,
+                                  description: _descriptionController.text,
+                                );
+
+                                //add income
+                                widget.addIncome(income);
+                              }
                             },
                             child: MainButton(
                               bColor: _viewPage == 0 ? kRed : kGreen,
