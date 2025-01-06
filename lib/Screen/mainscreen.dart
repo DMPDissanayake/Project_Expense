@@ -89,13 +89,13 @@ class _MainscreenState extends State<Mainscreen> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
+      Home(),
       Trasaction(
         expenseList: expenseList,
         incomeList: incomeList,
         removeExpenses: deleteExpense,
         removeIncome: deleteIncome,
       ),
-      Home(),
       AddNew(
         addExpense: addNewExpense,
         addIncome: addNewIncome,

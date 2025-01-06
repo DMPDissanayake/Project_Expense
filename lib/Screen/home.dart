@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_expense/Constants/colors.dart';
 import 'package:project_expense/Constants/constants.dart';
 import 'package:project_expense/Services/user_services.dart';
+import 'package:project_expense/Widgets/chart_card.dart';
 import 'package:project_expense/Widgets/income_expend_card.dart';
 
 class Home extends StatefulWidget {
@@ -35,6 +36,7 @@ class _HomeState extends State<Home> {
         //main colunm
         child: SafeArea(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //sub colunm
               Container(
@@ -118,6 +120,30 @@ class _HomeState extends State<Home> {
                       ),
                     ],
                   ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: kDefalutPadding),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      "Spend Frequency",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    //Chart impementation
+                    Grafchart(),
+                  ],
                 ),
               ),
             ],
