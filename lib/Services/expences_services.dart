@@ -73,4 +73,43 @@ class ExpensesServices {
     }
     return loadedExpenses;
   }
+
+  //Expenses item delete
+  Future<void> deletExpense(int id, BuildContext context) async {
+    try {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      List<String>? exsistingExpense = pref.getStringList(_expenceKey);
+      List<Expense> exsistingExpenseObject = [];
+      if (exsistingExpense != null) {
+        exsistingExpenseObject = exsistingExpense
+            .map((e) => Expense.fromJson(json.decode(e)))
+            .toList();
+      }
+
+      exsistingExpenseObject.removeWhere((element) => element.id == id);
+      List<String> upDatedExpense =
+          exsistingExpenseObject.map((e) => jsonEncode(e.toJson())).toList();
+
+      await pref.setStringList(_expenceKey, upDatedExpense);
+      //Show Messagr
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Expense Item Delete..."),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (error) {
+      //Show Messagr
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Expense Item Not Delete..."),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    }
+  }
 }

@@ -66,4 +66,40 @@ class IncomeServises {
     }
     return loadedIncome;
   }
+
+  //Income Item Delete
+  Future<void> deleteIncome(int id, BuildContext context) async {
+    try {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      List<String>? exsistingIncome = pref.getStringList(_incomeKey);
+      List<Income> exsistingIncomeObject = [];
+      if (exsistingIncome != null) {
+        exsistingIncomeObject =
+            exsistingIncome.map((e) => Income.fromJson(jsonDecode(e))).toList();
+      }
+      exsistingIncomeObject.removeWhere((element) => element.id == id);
+      List<String> updatedIncome =
+          exsistingIncomeObject.map((e) => json.encode(e.toJson())).toList();
+      await pref.setStringList(_incomeKey, updatedIncome);
+      //show Message
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Income Itme is Delete.."),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (error) {
+      //show Message
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Income Itme is Not Delete.."),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    }
+  }
 }

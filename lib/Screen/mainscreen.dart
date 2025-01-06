@@ -61,6 +61,22 @@ class _MainscreenState extends State<Mainscreen> {
     });
   }
 
+  //Delete the expense
+  void deleteExpense(Expense expense) {
+    ExpensesServices().deletExpense(expense.id, context);
+    setState(() {
+      expenseList.remove(expense);
+    });
+  }
+
+  //Delete the Income
+  void deleteIncome(Income income) {
+    IncomeServises().deleteIncome(income.id, context);
+    setState(() {
+      incomeList.remove(income);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -73,8 +89,13 @@ class _MainscreenState extends State<Mainscreen> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
+      Trasaction(
+        expenseList: expenseList,
+        incomeList: incomeList,
+        removeExpenses: deleteExpense,
+        removeIncome: deleteIncome,
+      ),
       Home(),
-      Trasaction(),
       AddNew(
         addExpense: addNewExpense,
         addIncome: addNewIncome,
